@@ -2,7 +2,6 @@ pipeline {
     agent any
 
     tools {
-        // Specify the JDK and Maven versions installed in Jenkins
         jdk 'OpenJDK-17'
         maven 'maven3'
     }
@@ -10,30 +9,27 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Clone the Git repository
                 git url: 'https://github.com/JuanJoDiaz19/saamfi-backend.git', branch: 'main'
             }
         }
-        
+
         stage('Build') {
             steps {
-                
                 sh '''
-                    mvn install:install-file \
+                    mvn -B install:install-file \
                         -Dfile="./ojdbc6-11.2.0.3.jar" \
                         -DgroupId=com.oracle.database.jdbc \
                         -DartifactId=ojdbc6 \
                         -Dversion=11.2.0.3 \
                         -Dpackaging=jar
                 '''
-                sh 'mvn clean install'
+                sh 'mvn -B clean install -DskipTests'
             }
         }
 
         stage('Test') {
             steps {
-                // Run tests
-                sh 'mvn test'
+                sh 'mvn -B test'
             }
         }
     }
@@ -42,6 +38,7 @@ pipeline {
         always {
             junit '**/target/surefire-reports/*.xml'
             jacoco execPattern: '**/target/*.exec'
+            cleanWs() // Cleans up the workspace after build completion
         }
     }
 }
