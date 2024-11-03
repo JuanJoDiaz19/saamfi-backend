@@ -21,9 +21,9 @@ pipeline {
                         -DgroupId=com.oracle.database.jdbc \
                         -DartifactId=ojdbc6 \
                         -Dversion=11.2.0.3 \
-                        -Dpackaging=jar
+                        -Dpackaging=jar && \
+                    mvn clean install -U
                 '''
-                sh 'mvn clean install -U'
             }
         }
 
