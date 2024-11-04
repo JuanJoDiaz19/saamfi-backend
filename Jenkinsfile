@@ -28,12 +28,11 @@ pipeline {
         }
 
         stage('Deploy to Dokku') {
-            steps {
-                sshagent(['ssh-dokku']) { 
-                    sh "git remote add dokku dokku@ec2-18-191-161-171.us-east-2.compute.amazonaws.com:saamfi2-backend"
+            sshagent(['ssh-dokku']) { 
+                steps {
+                        sh "git remote add dokku dokku@ec2-18-191-161-171.us-east-2.compute.amazonaws.com:saamfi2-backend"
                     sh "git push dokku main"
                 }
-                
             }
         }
     }
