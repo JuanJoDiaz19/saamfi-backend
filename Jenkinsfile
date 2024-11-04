@@ -15,8 +15,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                
-                sh '''mvn install:install-file -Dfile="./ojdbc6-11.2.0.3.jar" -DgroupId=oracle -DartifactId=ojdbc6 -Dversion=11.2.0.3 -Dpackaging=jar'''
+                sh 'mvn install:install-file -Dfile="./ojdbc6-11.2.0.3.jar" -DgroupId=oracle -DartifactId=ojdbc6 -Dversion=11.2.0.3 -Dpackaging=jar'
                 sh 'mvn clean install -DskipTests -U'
             }
         }
@@ -27,19 +26,21 @@ pipeline {
             }
         }
 
-        // stage('Prepare SSH Key') {
-        //     steps {
-        //         // Change permissions of the private key
-        //         sh 'chmod 600 /var/lib/jenkins/workspace/saamfi-backend@tmp/private_key'
-        //     }
-        // }
+        stage('Add Dokku Host Key') {
+            steps {
+                sh '''
+                    mkdir -p ~/.ssh
+                    ssh-keyscan -H ec2-18-191-161-171.us-east-2.compute.amazonaws.com >> ~/.ssh/known_hosts
+                '''
+            }
+        }
 
         stage('Deploy to Dokku') {
             steps {
-                sshagent(['ssh-dokku']) { 
+                sshagent(['ssh-dokku']) {
                     sh "pwd"
-                    sh "git remote add dokku dokku@ec2-18-191-161-171.us-east-2.compute.amazonaws.com:saamfi2-backend  || true"
-                    sh "git push dokku main -f"    
+                    sh "git remote add dokku dokku@ec2-18-191-161-171.us-east-2.compute.amazonaws.com:saamfi2-backend || true"
+                    sh "git push dokku main -f"
                 }
             }
         }
