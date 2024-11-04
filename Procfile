@@ -1,1 +1,1 @@
-web: java -jar saamfi-rest/target/saamfiapi.war
+web: ./install-custom-dependencies.sh && mvn clean package -DskipTests && java -jar saamfi-rest/target/saamfiapi.war
