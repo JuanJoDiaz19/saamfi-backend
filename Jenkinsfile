@@ -27,12 +27,12 @@ pipeline {
             }
         }
 
-        stage('Prepare SSH Key') {
-            steps {
-                // Change permissions of the private key
-                sh 'chmod 600 /var/lib/jenkins/workspace/saamfi-backend@tmp/private_key'
-            }
-        }
+        // stage('Prepare SSH Key') {
+        //     steps {
+        //         // Change permissions of the private key
+        //         sh 'chmod 600 /var/lib/jenkins/workspace/saamfi-backend@tmp/private_key'
+        //     }
+        // }
 
         stage('Deploy to Dokku') {
             steps {
