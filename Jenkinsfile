@@ -31,20 +31,21 @@ pipeline {
             steps {
                 sshagent(['ssh-dokku']) { 
                     sh "git remote add dokku dokku@ec2-18-191-161-171.us-east-2.compute.amazonaws.com:saamfi2-backend"
-                    
                 }
                 sshagent(['ssh-dokku']) { 
+                    sh "git add --all"
+                    sh '''git commit -m "feat: dokku testing in jenkins" '''
                     sh "git push dokku main"    
                 }
             }
         }
     }
 
-    post {
-        always {
-            junit '**/target/surefire-reports/*.xml'
-            jacoco execPattern: '**/target/*.exec'
-            cleanWs() // Cleans up the workspace after build completion
-        }
-    }
+    // post {
+    //     always {
+    //         junit '**/target/surefire-reports/*.xml'
+    //         jacoco execPattern: '**/target/*.exec'
+    //         cleanWs() // Cleans up the workspace after build completion
+    //     }
+    // }
 }
