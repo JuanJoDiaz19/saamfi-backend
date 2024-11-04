@@ -31,10 +31,6 @@ pipeline {
             steps {
                 sshagent(['ssh-dokku']) { 
                     sh "git remote add dokku dokku@ec2-18-191-161-171.us-east-2.compute.amazonaws.com:saamfi2-backend  || true"
-                }
-                sshagent(['ssh-dokku']) { 
-                    //sh "git add --all"
-                    //sh '''git commit -m "feat: dokku testing in jenkins" '''
                     sh "git push dokku main"    
                 }
             }
