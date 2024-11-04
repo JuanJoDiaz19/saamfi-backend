@@ -29,9 +29,11 @@ pipeline {
 
         stage('Deploy to Dokku') {
             steps {
-                sh 'sudo cat ~/.ssh/id_rsa.pub | ssh -i "/home/juanjo/Desktop/Universidad/7.SeptimoSemestre/Ingenieria_de_Software V/taller-dokku/ec2-default.pem" ubuntu@ec2-18-191-161-171.us-east-2.compute.amazonaws.com sudo dokku ssh-keys:add juanjo'
-                sh "git remote add dokku dokku@ec2-18-191-161-171.us-east-2.compute.amazonaws.com:saamfi2-backend"
-                sh "git push dokku main"
+                sshagent(['dokku-ssh-credentials']) { 
+                    sh "git remote add dokku dokku@ec2-18-191-161-171.us-east-2.compute.amazonaws.com:saamfi2-backend"
+                    sh "git push dokku main"
+                }
+                
             }
         }
     }
