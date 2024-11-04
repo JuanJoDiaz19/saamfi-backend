@@ -24,11 +24,9 @@
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>oracle</groupId>
-			<artifactId>ojdbc6</artifactId>
-			<version>11.2.0.3</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/ojdbc6-11.2.0.3.jar</systemPath>
+			<groupId>com.oracle.database.jdbc</groupId>
+			<artifactId>ojdbc8</artifactId>
+			<version>23.5.0.24.07</version>
 		</dependency>
 		<dependency>
 			<groupId>co.edu.icesi.dev.saamfi</groupId>
