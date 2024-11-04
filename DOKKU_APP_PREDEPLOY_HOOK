@@ -1,0 +1,3 @@
+#!/bin/bash
+# This hook script will run before the build starts on Dokku
+./install-custom-dependencies.sh
