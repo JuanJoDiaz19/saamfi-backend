@@ -30,7 +30,7 @@ pipeline {
             steps {
                 sh '''
                     mkdir -p ~/.ssh
-                    ssh-keyscan -H ec2-18-191-161-171.us-east-2.compute.amazonaws.com >> ~/.ssh/known_hosts
+                    ssh-keyscan -H helpme-god-juanjo.centralus.cloudapp.azure.com >> ~/.ssh/known_hosts
                 '''
             }
         }
@@ -38,7 +38,8 @@ pipeline {
         stage('Deploy to Dokku') {
             steps {
                 sshagent(['ssh-dokku']) {
-                    sh "git remote add dokku dokku@ec2-18-191-161-171.us-east-2.compute.amazonaws.com:saamfi2-backend || true"
+                    sh "git remote remove dokku || true"
+                    sh "git remote add dokku dokku@helpme-god-juanjo.centralus.cloudapp.azure.com:saamfi2-backend || true"
                     sh "git push dokku main -f"
                 }
             }
